@@ -1,0 +1,4 @@
+*.csv
+*.gexf 
+*.svg
+.python-version

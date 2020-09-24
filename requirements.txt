@@ -1,0 +1,4 @@
+beautifulsoup4==4.9.1  
+decorator==4.4.2  
+lxml==4.5.2  
+networkx==2.5  
