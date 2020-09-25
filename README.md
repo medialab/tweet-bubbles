@@ -4,6 +4,7 @@ This set of python scripts is made for processing a csv file which contain tweet
 
 ## How to use it
 
+STEPS :
 
 ### 1 - Use the filtration_and_graph.py script
 
@@ -15,7 +16,7 @@ This Script will generate a filtered csv file and a gexf file. In the command li
 Parameters : (speed : 1.1, ratio : 1.2, margin = 0.02) 
 Export to svg format
 
-#### 3 - Use the attributes_svg_insertion.py script
+### 3 - Use the attributes_svg_insertion.py script
 
 This script will add the following attributes to each node : author, text, sum_Rtfollower
 You need to specify in the commandline in this order : the csv file, the SVG file
