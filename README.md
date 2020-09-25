@@ -4,16 +4,21 @@ This set of python scripts is made for processing a csv file which contain tweet
 
 ## How to use it
 
-1 - Create a folder, Put your twitter csv file in it and create an other blank csv file.
+### steps
 
-2 - line 26-27 of filtration_file.py, remplace the first processing arg by your twitter csv file
+#### 1 - Use the filtration_and_graph.py script
+ This Script will generate a filtered csv file and a gexf file. In the command line you need to indicate the path to your tweet csv file. A color gradient can be add (the color is fixed : red)
+ by adding the option : --gradient  to the commandline
 
-3 - run filtration_file.py
+#### 2 - Open the gexf file in Gephi and run the Noverlap algorithm 
 
-4 - Change line 117-118 of graph_file.py delete, add lines and change first arg of generate_graph
+parameters : (speed : 1.1, ratio : 1.2, margin = 0.02) 
+export to svg format
 
-5 - Open the gexf file on Gephi, use the noverlap algo with (speed : 1.1, ratio : 1.2, margin = 0.02) and export to svg format
+#### 3 - Use the attributes_svg_insertion.py
 
-6 - Run attributes_svg_insertion.py (change line 22, 23 according to the name of your files)
+This script will add the following attributes to each node : author, text, sum_Rtfollower
+You need to specify in the commandline in this order : the csv file, the SVG file
+
 
 
