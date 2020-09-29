@@ -82,7 +82,6 @@ for row in file_content:
 pace = (maxi_time - mini_time)/n * 0.9
 t = mini_time - 0.1*pace
 
-
 """Creating a first dictionnary which keys are the time distribution previously defined. The values are 
 coordinates"""
 
@@ -91,7 +90,7 @@ Y = 4000
 
 while t < maxi_time:
     time_partitions.update({t : [Y,0]})
-    Y -= 100
+    Y -= 10
     t += pace
 time_partitions.update({(t-pace)+0.01*pace: [Y,0]})
 
@@ -119,7 +118,7 @@ for x in time_partitions.keys():
         if c < 200:
             c = c + 5
         time_part.update({x :[Z,0,c]})
-        Z -= 30
+        Z -= 15
 
 #with open(file1) as f:
    # file_content = csv.DictReader(f)
@@ -129,7 +128,10 @@ for row in file_content:
     text_tweet = row["text"]
     total_followers = row["sum_Rtfollowers"]
     G.add_node(tweet_id, author = author, text_tweet = text_tweet) #, author = author, text = text_tweet, nb_of_followers = total_followers)
-    G.nodes[tweet_id]["viz"] = {"size" : (TAILLE_MAX*math.log((float(total_followers) +1)))/math.log(float(maxi_size))} 
+    if float(total_followers)==mini_size:
+        G.nodes[tweet_id]["viz"] = {"size" : math.log(TAILLE_MAX*(float(maxi_size) + 1) /float(maxi_size))*0.18} #TAILLE_MAX*math.log((float(total_followers))))/math.log(float(maxi_size)
+    else:
+        G.nodes[tweet_id]["viz"] = {"size" : math.log(TAILLE_MAX*(float(total_followers) + 1) /float(maxi_size)) }
     tem = float(row["time"])
     c = 0
     for x in time_part.keys():
@@ -142,7 +144,7 @@ for row in file_content:
             G.nodes[tweet_id]["viz"]["color"] = {"r": 0 , "g": 0 ,"b" : 0, "a" : 1.0}
         position = time_part[x][1]
         hauteur = time_part[x][0]
-        pas = 70
+        pas = 15
             # Here we distribute tweets that are in the same time bin on the x axis 
         if position == 0:
             G.nodes[tweet_id]["viz"]["position"] = {"x": 0, "y": float(hauteur), "z" : 0.0} 
