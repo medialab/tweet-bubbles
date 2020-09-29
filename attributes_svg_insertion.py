@@ -21,5 +21,7 @@ with open(args.filename) as f1, open(args.graphe) as f2, open(graphe2, "w") as f
                     circle["author"] = row["from_user_name"]
                     circle["text"] = row["text"]
                     circle["sum_Rtfollowers"] = row["sum_Rtfollowers"]
+                    circle["lang"] = row["lang"]
+                    circle["date"] = row["created_at"]
         f3.write(str(soup))
 

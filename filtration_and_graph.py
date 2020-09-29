@@ -6,9 +6,12 @@ from collections import Counter
 import argparse 
 from numpy import arange
 
+#compter le nombre de langues
 
 TAILLE_MAX = 100
 G = nx.Graph()
+couleur = {"en" : [199,102,116], "fr" : [105,126,213], "und" : [154,153,69], "es": [147,80,161]}
+#couleur = {"fr" : [101,136,202], "en": [212,66,86], "und" : [179,151,64], "es" : [203,100,45], "pt" :[107,166,71], "others" : [155,75,128]}
 ### taking inline command 
 
 parser = argparse.ArgumentParser(description='Filter a csv file and generate a gexf graph')
@@ -125,6 +128,7 @@ for x in time_partitions.keys():
 for row in file_content:
     tweet_id = row["id"]
     author = row["from_user_name"]
+    lg = row["lang"]
     text_tweet = row["text"]
     total_followers = row["sum_Rtfollowers"]
     G.add_node(tweet_id, author = author, text_tweet = text_tweet) #, author = author, text = text_tweet, nb_of_followers = total_followers)
@@ -141,7 +145,11 @@ for row in file_content:
         if args.gradient:
             G.nodes[tweet_id]["viz"]["color"] = {"r": int(time_part[x][2]) , "g": 0 ,"b" : 0, "a" : 1.0}
         else:
-            G.nodes[tweet_id]["viz"]["color"] = {"r": 0 , "g": 0 ,"b" : 0, "a" : 1.0}
+            try:
+                G.nodes[tweet_id]["viz"]["color"] = {"r": couleur[lg][0] , "g": couleur[lg][1] ,"b" : couleur[lg][2], "a" : 1.0}
+            except:
+                G.nodes[tweet_id]["viz"]["color"] = {"r": couleur["others"][0] , "g": couleur["others"][1] ,"b" : couleur["others"][2], "a" : 1.0}
+            #small_file 4 un : 154,153,69, fr : 105,126,213, en : 199,102,116, es : 147,80,161
         position = time_part[x][1]
         hauteur = time_part[x][0]
         pas = 15
