@@ -10,8 +10,8 @@ from numpy import arange
 
 TAILLE_MAX = 100
 G = nx.Graph()
-couleur = {"en" : [199,102,116], "fr" : [105,126,213], "und" : [154,153,69], "es": [147,80,161]}
-#couleur = {"fr" : [101,136,202], "en": [212,66,86], "und" : [179,151,64], "es" : [203,100,45], "pt" :[107,166,71], "others" : [155,75,128]}
+#couleur = {"en" : [212,66,86], "fr" : [101,136,202], "und" : [179,151,64], "es": [203,100,45]}
+couleur = {"fr" : [101,136,202], "en": [212,66,86], "und" : [179,151,64], "es" : [203,100,45], "pt" :[107,166,71], "others" : [155,75,128]}
 ### taking inline command 
 
 parser = argparse.ArgumentParser(description='Filter a csv file and generate a gexf graph')

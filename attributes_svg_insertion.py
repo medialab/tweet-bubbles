@@ -18,8 +18,14 @@ with open(args.filename) as f1, open(args.graphe) as f2, open(graphe2, "w") as f
         for row in file_content:
             for circle in circles:
                 if row["id"] == circle["class"][3:]:
-                    circle["author"] = row["from_user_name"]
-                    circle["text"] = row["text"]
+                    author = row["from_user_name"]
+                    text = row["text"]
+                    sum_followers = row["sum_Rtfollowers"]
+                    title = soup.new_tag("title")
+                    title.insert(1, "author : {}, text = {}, agregation du nombre de followers sur le tweet : {}".format(author,text,sum_followers))
+                    circle.append(title)
+                    circle["author"] = author
+                    circle["text"] = text
                     circle["sum_Rtfollowers"] = row["sum_Rtfollowers"]
                     circle["lang"] = row["lang"]
                     circle["date"] = row["created_at"]
