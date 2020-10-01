@@ -16,13 +16,13 @@ couleur = {"fr" : [101,136,202], "en": [212,66,86], "und" : [179,151,64], "es" :
 
 parser = argparse.ArgumentParser(description='Filter a csv file and generate a gexf graph')
 parser.add_argument('filename')
-parser.add_argument("--gradient", help="add a gradient of color to the node distribution (from black to red)")
+parser.add_argument("--gradient", help="add a gradient of color to the node distribution (from black to red)", action = 'store_true')
 args = parser.parse_args()
 
 #### generating a new csv file ? 
 
-file1 = args.filename[:-4]  + "_filtered2.csv"
-graphe = args.filename[:-4] + "graphe.gexf"
+file1 = os.path.splitext(args.filename)[0] + "_filtered2.csv"
+graphe = os.path.splitext(args.filename)[0] + "_graphe.gexf"
 
 
 
@@ -35,12 +35,12 @@ with open(args.filename) as f, open(file1,"w") as f2:
     writer.writeheader() 
     tweets_o1 = dict()
     tweets_o2 = Counter()
-    rt_o = []
+    rt_o = [] #cant remove it yet
     for row in file_content:
         if row["retweeted_id"]:
             rt_o.append(row)
         else:
-            tweets_o1.update({"{}".format(row["id"]) : row})
+            tweets_o1[row["id"]] = row 
             tweets_o2[row["id"]] = int(row["from_user_followercount"])
     for rt in rt_o:
         # rt["from_user_id"] has loads of chance not to be a key of tweets_o1 hence the try block
@@ -50,27 +50,19 @@ with open(args.filename) as f, open(file1,"w") as f2:
         except:
             pass
     for x in tweets_o1:
-        tweets_o1[x].update({"sum_Rtfollowers":tweets_o2[x]})
+        tweets_o1[x]["sum_Rtfollowers"] = tweets_o2[x]
         writer.writerow(tweets_o1[x])
 
 
 ### we store the content of file1 in RAM as we are going to consume the file three times. 
-file_content = []
-with open(file1) as f:
-    file_c = csv.DictReader(f)
-    for row in file_c:
-        file_content.append(row)
 
-"""def get_stats_file(fichier1):
-    This function allows us to get a suitable time pace which will be used later on when 
-    drawing the graph"""
 n = 0 
 maxi_time = - math.inf
 mini_time = math.inf
 maxi_size = - math.inf
 mini_size = math.inf
 
-for row in file_content:
+for row in tweets_o1.values():
     n +=1
     if float(row["time"])> maxi_time:
         maxi_time = float(row["time"])
@@ -92,10 +84,10 @@ time_partitions= dict()
 Y = 4000
 
 while t < maxi_time:
-    time_partitions.update({t : [Y,0]})
+    time_partitions[t] = [Y,0]
     Y -= 10
     t += pace
-time_partitions.update({(t-pace)+0.01*pace: [Y,0]})
+time_partitions[(t-pace)+0.01*pace] = [Y,0]
 
 
 time_part = dict()
@@ -107,7 +99,7 @@ Z = 4000
 ### Filtrating no point's land  
 a = 0
 d = Counter()
-for row in file_content:
+for row in tweets_o1.values():
     tem = float(row["time"])
     for x in time_partitions.keys():
         if not (tem > x and tem < x + pace):
@@ -120,12 +112,12 @@ for x in time_partitions.keys():
     if x in d:
         if c < 200:
             c = c + 5
-        time_part.update({x :[Z,0,c]})
+        time_part[x] =[Z,0,c]
         Z -= 15
 
 #with open(file1) as f:
    # file_content = csv.DictReader(f)
-for row in file_content:
+for row in tweets_o1.values():
     tweet_id = row["id"]
     author = row["from_user_name"]
     lg = row["lang"]
@@ -145,10 +137,8 @@ for row in file_content:
         if args.gradient:
             G.nodes[tweet_id]["viz"]["color"] = {"r": int(time_part[x][2]) , "g": 0 ,"b" : 0, "a" : 1.0}
         else:
-            try:
-                G.nodes[tweet_id]["viz"]["color"] = {"r": couleur[lg][0] , "g": couleur[lg][1] ,"b" : couleur[lg][2], "a" : 1.0}
-            except:
-                G.nodes[tweet_id]["viz"]["color"] = {"r": couleur["others"][0] , "g": couleur["others"][1] ,"b" : couleur["others"][2], "a" : 1.0}
+            col = couleur.get(lg, couleur["others"])
+            G.nodes[tweet_id]["viz"]["color"] = {"r": col[0] , "g": col[1] ,"b" : col[2], "a" : 1.0}
             #small_file 4 un : 154,153,69, fr : 105,126,213, en : 199,102,116, es : 147,80,161
         position = time_part[x][1]
         hauteur = time_part[x][0]
