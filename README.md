@@ -21,3 +21,4 @@ Export to svg format
 This script will add the following attributes to each node : author, text, sum_Rtfollower
 You need to specify in the commandline in this order : the csv file, the SVG file
 
+# apptweetbb
