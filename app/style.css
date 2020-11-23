@@ -1,0 +1,41 @@
+p {
+  font-size: small;
+}
+
+a {
+  font-size: small;
+}
+#menu {
+  padding-right: 0;
+}
+#titre {
+  color: #00acee;
+  background: linear-gradient(#37d310, #11495f);
+  padding-right: 0;
+}
+#droite {
+  color: red;
+  font-size: medium;
+  width: 40%;
+  background: yellow;
+  border: 1px solid black;
+  text-align: justify;
+  right: 240 px;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.element:nth-child(2) /* On prend le deuxième bloc élément */ {
+  background-color: blue;
+  align-self: flex-end;
+}
+
+#swmplot {
+  height: 200 px;
+  width: 200 px;
+}
