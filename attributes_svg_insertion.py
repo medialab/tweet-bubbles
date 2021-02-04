@@ -8,7 +8,7 @@ parser.add_argument('filename')
 parser.add_argument('graphe')
 args = parser.parse_args()
 
-graphe2 = args.graphe[:-5]  + "3.svg"
+graphe2 = args.graphe[:-4]  + "_with_attributes.svg"
 
 with open(args.filename) as f1, open(args.graphe) as f2, open(graphe2, "w") as f3:
         file_content = csv.DictReader(f1)
@@ -26,7 +26,7 @@ with open(args.filename) as f1, open(args.graphe) as f2, open(graphe2, "w") as f
                     circle.append(title)
                     circle["author"] = author
                     circle["text"] = text
-                    circle["sum_Rtfollowers"] = row["sum_Rtfollowers"]
+                    circle["sum_Rtfollowers"] = sum_followers
                     circle["lang"] = row["lang"]
                     circle["date"] = row["created_at"]
         f3.write(str(soup))
