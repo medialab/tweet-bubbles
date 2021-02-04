@@ -1,7 +1,8 @@
 # Description
 
 This set of python scripts is made for processing a csv file which contains tweets and generates a bubble like visualization of those tweets as a svg file.  The visualization displays tweets from oldest to most recent, the color of the nodes either represents the lang of the tweet or the number of times the tweet was retweeted (thanks to a red color gradient). 
-The attributes_svg_insertion.py script 
+
+![img](ex.png)
 
 ## How to use it
 
@@ -22,6 +23,8 @@ First set the node size using the total_flo attribute.
 The spline for the node size might differ depending on the tweet distribution you have, this should be improved. 
 Run the noverlap algorithm (speed : 1.1, ratio : 1.2,  margin : 0.02) 
 Export the result as a svg file.
+
+![img](gephi.png)
 
 3 - Run the attributes_svg_insertion.py script
 
